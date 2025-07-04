@@ -24,5 +24,14 @@ pipeline {
                 jacoco classPattern: '**/target/classes', exclusionPattern: '**/*Test*.class', execPattern: '**/target/jacoco.exec', inclusionPattern: '**/*.class', sourceExclusionPattern: 'generated/**/*.java', sourceInclusionPattern: '**/*.java'
             }
         }
+stage('Slack Notification'){
+            steps{
+                echo 'Slack Notification'
+                sh 'mvn test'
+                junit '**/target/surefire-reports/*.xml'
+                jacoco classPattern: '**/target/classes', exclusionPattern: '**/*Test*.class', execPattern: '**/target/jacoco.exec', inclusionPattern: '**/*.class', sourceExclusionPattern: 'generated/**/*.java', sourceInclusionPattern: '**/*.java'
+                slackSend channel: 'notification', message: 'amit here'
+            }
+        }
     }
 }
